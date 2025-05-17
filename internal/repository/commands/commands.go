@@ -9,12 +9,14 @@ type Handler interface {
 	Execute(args []string)
 }
 
-type SubHandler func(args []string)
-
 type MetaData struct {
 	ShortDescription string
 	LongDescription  string
 	AvailableOptions [][]string
+}
+
+type Registry struct {
+	Commands map[string]command
 }
 
 type command struct {
@@ -24,11 +26,7 @@ type command struct {
 	flags      []string
 }
 
-type Registry struct {
-	Commands map[string]command
-}
-
-type option string
+type SubHandler func(args []string)
 
 func NewRegistry() *Registry {
 	return &Registry{
