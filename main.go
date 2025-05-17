@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/wriverarincon/clock-in/cmd"
-	"github.com/wriverarincon/clock-in/internals/repository/commands"
+	"github.com/wriverarincon/clock-in/internal/repository/commands"
 )
 
 func main() {
@@ -11,6 +11,7 @@ func main() {
 
 	init := &cmd.InitCommand{}
 	help := &cmd.HelpCommand{Registry: registry}
+	task := &cmd.TaskCommand{Registry: registry}
 
 	initMetaData := commands.MetaData{
 		ShortDescription: "Initializes the app",
@@ -36,8 +37,8 @@ func main() {
 		},
 	}
 
-	registry.NewCommand("init", init, nil, initMetaData, nil)
-	registry.NewCommand("help", help, nil, helpMetaData, nil)
-	registry.NewCommand("task")
+	registry.NewCommand("init", init, initMetaData)
+	registry.NewCommand("help", help, helpMetaData)
+	registry.NewCommand("task", task, createTaskMetaData)
 	registry.Execute()
 }
