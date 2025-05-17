@@ -6,7 +6,7 @@ import (
 	"strings"
 	"text/tabwriter"
 
-	"github.com/wriverarincon/clock-in/internals/repository/commands"
+	"github.com/wriverarincon/clock-in/internal/repository/commands"
 )
 
 type HelpCommand struct {
