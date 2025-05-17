@@ -9,6 +9,8 @@ type Handler interface {
 	Execute(args []string)
 }
 
+type SubHandler func(args []string)
+
 type MetaData struct {
 	ShortDescription string
 	LongDescription  string
@@ -17,7 +19,7 @@ type MetaData struct {
 
 type command struct {
 	handler    Handler
-	subCommand Handler
+	subCommand map[string]SubHandler
 	MetaData   MetaData
 	flags      []string
 }
@@ -34,14 +36,17 @@ func NewRegistry() *Registry {
 	}
 }
 
-func (cr *Registry) NewCommand(name string, handler Handler, subCommand Handler, metadata MetaData, flags []string) {
-	c := command{
+func (cr *Registry) NewCommand(name string, handler Handler, meta MetaData) {
+	cr.Commands[name] = command{
 		handler:    handler,
-		subCommand: subCommand,
-		MetaData:   metadata,
-		flags:      flags,
+		subCommand: make(map[string]SubHandler),
+		MetaData:   meta,
+		flags:      nil,
 	}
-	cr.Commands[name] = c
+}
+
+func (cr *Registry) AddSubCommand(parent string, name string, handler SubHandler) {
+	cr.Commands[parent].subCommand[name] = handler
 }
 
 func (cr *Registry) Execute() {
@@ -50,8 +55,17 @@ func (cr *Registry) Execute() {
 		return
 	}
 	if cmd, ok := cr.Commands[os.Args[1]]; ok {
-		cmd.handler.Execute(os.Args[2:])
+		cmd.handler.Execute(os.Args)
 	} else {
 		fmt.Println("Unknown command:", os.Args[1])
 	}
+}
+
+func (cr *Registry) ExecuteSubCommand(args []string) {
+	c := cr.Commands[args[1]]
+	if ok := c.subCommand[args[2]]; ok != nil {
+		ok(args[3:])
+		return
+	}
+	fmt.Printf("Subcommand %v was not found", args[2])
 }
