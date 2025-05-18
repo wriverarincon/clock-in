@@ -46,7 +46,7 @@ func printFlags(flags [][]string) {
 	writer.Flush()
 }
 
-func (p *HelpCommand) Execute(args []string) {
+func (p *HelpCommand) Init(args []string) {
 	r := p.Registry
 	if len(args) >= 1 {
 		printSubCommands(r.Commands[args[0]].MetaData.SubCommands)

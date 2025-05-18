@@ -1,5 +1,7 @@
 package cmd
 
+import "github.com/wriverarincon/clock-in/internal/repository/commands"
+
 type InitCommand struct{}
 
 var InitMetaData = commands.MetaData{
@@ -12,7 +14,7 @@ var InitMetaData = commands.MetaData{
 }
 
 // InitCommand starts the app and prints a custom message for the user
-func (init *InitCommand) Execute(args []string) {
+func (init *InitCommand) Init(args []string) {
 	// TODO: Add custom message with user name
 	println("Up and Running!")
 	// TODO: Add a state changer: stopped > [run this command] > running
