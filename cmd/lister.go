@@ -13,6 +13,11 @@ type HelpCommand struct {
 	Registry *commands.Registry
 }
 
+var HelpMetaData = commands.MetaData{
+	ShortDescription: "Prints this message",
+	LongDescription:  "Prints this message along with all the available commands.",
+}
+
 func printCommands(commands map[string]commands.Command) {
 	writer := tabwriter.NewWriter(os.Stdout, 0, 4, 2, ' ', 0)
 	fmt.Println("CORE COMMANDS")
