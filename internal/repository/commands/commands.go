@@ -47,14 +47,16 @@ func (cr *Registry) AddSubCommand(parent string, name string, handler SubHandler
 }
 
 func (cr *Registry) Execute() {
-	if len(os.Args) < 2 {
-		cr.Commands["help"].handler.Execute(nil)
+	args := os.Args
+	if len(args) < 2 {
+		cr.Commands["help"].handler(nil)
 		return
 	}
-	if cmd, ok := cr.Commands[os.Args[1]]; ok {
-		cmd.handler.Execute(os.Args[2:])
+	fmt.Println(args[1], cr.Commands)
+	if cmd, ok := cr.Commands[args[1]]; ok {
+		cmd.handler(args[2:])
 	} else {
-		fmt.Println("Unknown command:", os.Args[1])
+		fmt.Println("Unknown command:", args[1])
 	}
 }
 
