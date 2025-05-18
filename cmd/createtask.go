@@ -49,10 +49,14 @@ func (t *TaskCommand) createTask(args []string) {
 		fmt.Println("Error parsing flags:", err)
 		return
 	}
+	fmt.Printf("Got %v %v", title, body)
 }
 
-func (t *TaskCommand) Execute(args []string) {
-	t.Registry.AddSubCommand(args[1], "create", t.createTask)
+func (t *TaskCommand) Init(args []string) {
+	t.Registry.AddSubCommand(args[1], "create", t.createTask, TaskMetaData)
 
-	t.Registry.ExecuteSubCommand(args)
+	if len(args) >= 2 {
+		t.Registry.ExecuteSubCommand(args)
+		return
+	}
 }
