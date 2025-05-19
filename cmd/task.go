@@ -1,0 +1,73 @@
+package cmd
+
+import (
+	"flag"
+	"fmt"
+	"os"
+	"time"
+
+	"github.com/wriverarincon/command"
+)
+
+type TaskCommand struct{}
+
+var titleFlag = command.Flag{
+	Name:         "title",
+	Shorthand:    "t",
+	Description:  "Title of the task",
+	DefaultValue: "",
+	Required:     true,
+}
+
+var bodyFlag = command.Flag{
+	Name:         "body",
+	Shorthand:    "b",
+	Description:  "Body of the task",
+	DefaultValue: "",
+	Required:     true,
+}
+
+var startFlag = command.Flag{
+	Name:         "start-day",
+	Shorthand:    "",
+	Description:  "Start day of the task, defaults to today",
+	DefaultValue: time.Now().Format("2006-01-02"),
+}
+
+var endFlag = command.Flag{
+	Name:         "end-day",
+	Shorthand:    "",
+	Description:  "End day of the task, defaults to today",
+	DefaultValue: time.Now().Format("2006-01-02"),
+}
+
+var TaskMetaData = command.MetaData{
+	ShortDescription: "Create task",
+	LongDescription:  "Creates and stores a task for the day and [OPTIONS] specified",
+	Flags:            []command.Flag{titleFlag, bodyFlag, startFlag, endFlag},
+}
+
+func (t *TaskCommand) createTask(args []string) {
+	var (
+		title string
+		body  string
+		from  string
+		until string
+	)
+
+	fs := flag.NewFlagSet("create", flag.ContinueOnError)
+	fs.SetOutput(os.Stdout)
+	fs.StringVar(&title, "title", "", "task title")
+	fs.StringVar(&title, "t", "", "task title (shorthand)")
+	fs.StringVar(&body, "body", "", "task body")
+	fs.StringVar(&body, "b", "", "task body (shorthand)")
+	fs.StringVar(&from, "from", "", "task start time")
+	fs.StringVar(&from, "f", "", "task start time (shorthand)")
+	fs.StringVar(&until, "until", "", "task end time")
+	fs.StringVar(&until, "u", "", "task end time (shorthand)")
+
+	if err := fs.Parse(args); err != nil {
+		fmt.Println("Error parsing flags:", err)
+		return
+	}
+}
