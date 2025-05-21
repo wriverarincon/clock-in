@@ -4,11 +4,17 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/wriverarincon/command"
 )
 
 type taskCreate struct{}
+
+var titleFlag = command.NewFlag("title", "t", "Title of the task", "", true)
+var bodyFlag = command.NewFlag("body", "b", "Body of the task", "", true)
+var startFlag = command.NewFlag("start-day", "", "Start day of the task, defaults to today", time.Now().Format("2006-01-02"), false)
+var endFlag = command.NewFlag("end-day", "", "End day of the task, defaults to today", time.Now().Format("2006-01-02"), false)
 
 func (c taskCreate) Execute(args []string) error {
 	var (
@@ -33,6 +39,7 @@ func (c taskCreate) Execute(args []string) error {
 		fmt.Println("Error parsing flags:", err)
 		return err
 	}
+	fmt.Printf("got %v", title)
 	return nil
 }
 
