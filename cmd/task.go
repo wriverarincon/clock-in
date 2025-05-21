@@ -51,6 +51,14 @@ func NewTaskCommand() command.Command {
 	return &TaskCommand{}
 }
 
+func (t *TaskCommand) Execute(args []string) error {
+	return nil
+}
+
+func (t *TaskCommand) Metadata() command.MetaData {
+	return TaskMetaData
+}
+
 func (t *TaskCommand) createTask(args []string) {
 	var (
 		title string
