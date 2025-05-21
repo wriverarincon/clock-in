@@ -16,6 +16,13 @@ var bodyFlag = command.NewFlag("body", "b", "Body of the task", "", true)
 var startFlag = command.NewFlag("start-day", "", "Start day of the task, defaults to today", time.Now().Format("2006-01-02"), false)
 var endFlag = command.NewFlag("end-day", "", "End day of the task, defaults to today", time.Now().Format("2006-01-02"), false)
 
+var createMetaData = command.MetaData{
+	Name:             "create",
+	ShortDescription: "Creates a task",
+	LongDescription:  "Creates a task with the defined options",
+	Flags:            []command.Flag{titleFlag, bodyFlag, startFlag, endFlag},
+}
+
 func (c taskCreate) Execute(args []string) error {
 	var (
 		title string
