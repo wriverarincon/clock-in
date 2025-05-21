@@ -52,7 +52,7 @@ var TaskMetaData = command.MetaData{
 	Flags:            []command.Flag{titleFlag, bodyFlag, startFlag, endFlag},
 }
 
-func NewTaskCommand() command.Command {
+func New() command.Command {
 	return &TaskCommand{}
 }
 
