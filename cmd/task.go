@@ -47,6 +47,10 @@ var TaskMetaData = command.MetaData{
 	Flags:            []command.Flag{titleFlag, bodyFlag, startFlag, endFlag},
 }
 
+func NewTaskCommand() command.Command {
+	return &TaskCommand{}
+}
+
 func (t *TaskCommand) createTask(args []string) {
 	var (
 		title string
