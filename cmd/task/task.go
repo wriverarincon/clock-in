@@ -13,35 +13,10 @@ type handler struct {
 	fn   command.Command
 }
 
-var titleFlag = command.Flag{
-	Name:         "title",
-	Shorthand:    "t",
-	Description:  "Title of the task",
-	DefaultValue: "",
-	Required:     true,
-}
-
-var bodyFlag = command.Flag{
-	Name:         "body",
-	Shorthand:    "b",
-	Description:  "Body of the task",
-	DefaultValue: "",
-	Required:     true,
-}
-
-var startFlag = command.Flag{
-	Name:         "start-day",
-	Shorthand:    "",
-	Description:  "Start day of the task, defaults to today",
-	DefaultValue: time.Now().Format("2006-01-02"),
-}
-
-var endFlag = command.Flag{
-	Name:         "end-day",
-	Shorthand:    "",
-	Description:  "End day of the task, defaults to today",
-	DefaultValue: time.Now().Format("2006-01-02"),
-}
+var titleFlag = command.NewFlag("title", "t", "Title of the task", "", true)
+var bodyFlag = command.NewFlag("body", "b", "Body of the task", "", true)
+var startFlag = command.NewFlag("start-day", "", "Start day of the task, defaults to today", time.Now().Format("2006-01-02"), false)
+var endFlag = command.NewFlag("end-day", "", "End day of the task, defaults to today", time.Now().Format("2006-01-02"), false)
 
 var TaskMetaData = command.MetaData{
 	ShortDescription: "Create task",
