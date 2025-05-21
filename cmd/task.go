@@ -6,10 +6,16 @@ import (
 	"os"
 	"time"
 
+	"github.com/wriverarincon/clock-in/cmd/task"
 	"github.com/wriverarincon/command"
 )
 
 type TaskCommand struct{}
+
+type handler struct {
+	path []string
+	fn   command.Command
+}
 
 var titleFlag = command.Flag{
 	Name:         "title",
@@ -57,6 +63,15 @@ func (t *TaskCommand) Execute(args []string) error {
 
 func (t *TaskCommand) Metadata() command.MetaData {
 	return TaskMetaData
+}
+
+func Setup(registry *command.Registry) {
+	subCommands := map[string]handler{
+		"create": {[]string{"task", "create"}, task.SubcommandCreate{}},
+	}
+	for _, v := range subCommands {
+		registry.New(v.path, v.fn)
+	}
 }
 
 func (t *TaskCommand) createTask(args []string) {
