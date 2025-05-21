@@ -61,11 +61,13 @@ func (t *TaskCommand) Metadata() command.MetaData {
 	return TaskMetaData
 }
 
-func Setup(registry *command.Registry) {
-	subCommands := map[string]handler{
-		"create": {[]string{"task", "create"}, taskCreate{}},
-	}
-	for _, v := range subCommands {
-		registry.New(v.path, v.fn)
+func Setup(registry *command.Registry) func() {
+	return func() {
+		subCommands := map[string]handler{
+			"create": {[]string{"task", "create"}, taskCreate{}},
+		}
+		for _, v := range subCommands {
+			registry.New(v.path, v.fn, nil)
+		}
 	}
 }
