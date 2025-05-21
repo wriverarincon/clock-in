@@ -2,13 +2,13 @@ package task
 
 import "github.com/wriverarincon/command"
 
-type SubcommandCreate struct{}
+type taskCreate struct{}
 
-func (c SubcommandCreate) Execute(args []string) error {
+func (c taskCreate) Execute(args []string) error {
 	return nil
 }
 
-func (c SubcommandCreate) Metadata() command.MetaData {
+func (c taskCreate) Metadata() command.MetaData {
 	return command.MetaData{}
 }
 

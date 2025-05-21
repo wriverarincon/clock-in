@@ -1,4 +1,4 @@
-package cmd
+package task
 
 import (
 	"flag"
@@ -6,7 +6,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/wriverarincon/clock-in/cmd/task"
 	"github.com/wriverarincon/command"
 )
 
@@ -67,7 +66,7 @@ func (t *TaskCommand) Metadata() command.MetaData {
 
 func Setup(registry *command.Registry) {
 	subCommands := map[string]handler{
-		"create": {[]string{"task", "create"}, task.SubcommandCreate{}},
+		"create": {[]string{"task", "create"}, taskCreate{}},
 	}
 	for _, v := range subCommands {
 		registry.New(v.path, v.fn)
