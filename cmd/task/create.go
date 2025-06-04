@@ -9,7 +9,7 @@ import (
 	"github.com/wriverarincon/command"
 )
 
-type taskCreate struct{}
+type CreateSubcommand struct{}
 
 var titleFlag = command.NewFlag("title", "t", "Title of the task", "", true)
 var bodyFlag = command.NewFlag("body", "b", "Body of the task", "", true)
@@ -23,7 +23,11 @@ var createMetaData = command.MetaData{
 	Flags:            []command.Flag{titleFlag, bodyFlag, startFlag, endFlag},
 }
 
-func (c taskCreate) Execute(args []string) error {
+func NewCreateSubcommand() *CreateSubcommand {
+	return &CreateSubcommand{}
+}
+
+func (c CreateSubcommand) Execute(args []string) error {
 	var (
 		title string
 		body  string
@@ -50,6 +54,6 @@ func (c taskCreate) Execute(args []string) error {
 	return nil
 }
 
-func (c taskCreate) Metadata() command.MetaData {
+func (c CreateSubcommand) Metadata() command.MetaData {
 	return createMetaData
 }
