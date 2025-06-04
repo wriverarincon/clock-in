@@ -11,6 +11,7 @@ func main() {
 	// Create the registry
 	registry := command.NewRegistry()
 
-	registry.New(nil, task.New(), task.Setup(registry))
+	registry.New(nil, task.NewTaskCommand(), nil)
+	task.AddSubcommands(registry)
 	registry.Execute(os.Args[1:])
 }
