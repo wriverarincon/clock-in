@@ -4,7 +4,9 @@ import (
 	"github.com/wriverarincon/command"
 )
 
-type TaskCommand struct{}
+type TaskCommand struct {
+	registry command.Registry
+}
 
 type handler struct {
 	path []string
@@ -18,7 +20,7 @@ var taskMetaData = command.MetaData{
 	Flags:            []command.Flag{},
 }
 
-func New() command.Command {
+func NewTaskCommand() command.Command {
 	return &TaskCommand{}
 }
 
@@ -30,13 +32,11 @@ func (t *TaskCommand) Metadata() command.MetaData {
 	return taskMetaData
 }
 
-func Setup(registry *command.Registry) func() {
-	return func() {
-		subCommands := map[string]handler{
-			"create": {[]string{"task", "create"}, taskCreate{}},
-		}
-		for _, v := range subCommands {
-			registry.New(v.path, v.fn, nil)
-		}
+func AddSubcommands(registry *command.Registry) {
+	subCommands := map[string]handler{
+		"create": {[]string{"task", "create"}, NewCreateSubcommand()},
+	}
+	for _, v := range subCommands {
+		registry.New(v.path, v.fn, nil)
 	}
 }
